@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{
+    font-family:'Cairo',sans-serif;
+    background:#0a1a0f;
+    color:#f5e6c8;
+    min-height:100vh;
+    overflow-x:hidden;
+    position:relative;
+  }
+  .bg-pattern{
+    position:fixed;inset:0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 0%, #1a3d1a 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 80% 80%, #1a2e0f 0%, transparent 50%),
+      radial-gradient(ellipse 50% 50% at 20% 60%, #0d2615 0%, transparent 50%);
+    background-color:#070f08;
+    z-index:0;
+    pointer-events:none;
+  }
+  .geometric-bg{
+    position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.07;
+    background-image:
+      repeating-linear-gradient(60deg,#c9a84c 0,#c9a84c 1px,transparent 0,transparent 50%),
+      repeating-linear-gradient(-60deg,#c9a84c 0,#c9a84c 1px,transparent 0,transparent 50%);
+    background-size:40px 70px;
+  }
+  .stars-layer{position:fixed;inset:0;z-index:0;pointer-events:none}
+  .star{position:absolute;background:#f5e6c8;border-radius:50%;animation:twinkle var(--d,3s) ease-in-out infinite var(--delay,0s)}
+  @keyframes twinkle{0%,100%{opacity:.2;transform:scale(1)}50%{opacity:1;transform:scale(1.4)}}
+  
+  .content{position:relative;z-index:2;max-width:900px;margin:0 auto;padding:2rem 1.5rem 3rem}
+  
+  .hero{text-align:center;padding:3rem 1rem 2rem;position:relative}
+  .crescent-container{display:flex;justify-content:center;align-items:center;gap:1rem;margin-bottom:1.5rem;animation:floatUp 1s ease-out}
+  @keyframes floatUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+  
+  .eid-badge{
+    display:inline-block;
+    background:linear-gradient(135deg,#1a3d1a,#0d2615);
+    border:1px solid #c9a84c55;
+    border-radius:50px;
+    padding:.4rem 1.2rem;
+    font-size:.75rem;letter-spacing:3px;color:#c9a84c;
+    text-transform:uppercase;margin-bottom:1.5rem;
+    animation:fadeIn 1.2s ease-out .3s both;
+  }
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+  
+  .main-title{
+    font-family:'Amiri',serif;
+    font-size:clamp(2.5rem,7vw,5rem);
+    color:#c9a84c;
+    line-height:1.3;
+    text-shadow:0 0 40px #c9a84c44;
+    animation:floatUp .9s ease-out .2s both;
+    margin-bottom:.5rem;
+  }
+  .sub-title{
+    font-family:'Amiri',serif;
+    font-size:clamp(1.3rem,3.5vw,2rem);
+    color:#e8d5a0;
+    opacity:.9;
+    animation:floatUp .9s ease-out .4s both;
+    margin-bottom:1rem;
+  }
+  .year-badge{
+    font-size:1rem;color:#a0c080;letter-spacing:2px;
+    animation:fadeIn 1s ease-out .6s both;
+  }
+  
+  .divider{
+    display:flex;align-items:center;gap:1rem;margin:2rem 0;
+    animation:fadeIn 1s ease-out .5s both;
+  }
+  .divider-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,#c9a84c66,transparent)}
+  .divider-icon{color:#c9a84c;font-size:1.2rem}
+  
+  .cards-grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:1.2rem;margin:1.5rem 0;
+  }
+  .card{
+    background:rgba(20,45,20,.6);
+    border:1px solid #c9a84c33;
+    border-radius:16px;
+    padding:1.5rem;
+    text-align:center;
+    transition:transform .3s,border-color .3s,box-shadow .3s;
+    animation:floatUp 1s ease-out var(--delay,0s) both;
+    backdrop-filter:blur(4px);
+  }
+  .card:hover{transform:translateY(-6px);border-color:#c9a84c88;box-shadow:0 12px 40px #c9a84c22}
+  .card-icon{font-size:2.5rem;margin-bottom:.8rem;display:block}
+  .card-title{font-size:1.1rem;font-weight:700;color:#c9a84c;margin-bottom:.5rem}
+  .card-text{font-size:.9rem;color:#c8d8b8;line-height:1.7;opacity:.9}
+  
+  .prayer-section{
+    background:rgba(201,168,76,.08);
+    border:1px solid #c9a84c44;
+    border-radius:20px;
+    padding:2rem;text-align:center;
+    margin:2rem 0;
+    animation:floatUp 1s ease-out .7s both;
+    position:relative;overflow:hidden;
+  }
+  .prayer-section::before{
+    content:'';position:absolute;inset:0;
+    background:radial-gradient(ellipse at center,#c9a84c11 0%,transparent 70%);
+  }
+  .prayer-text{
+    font-family:'Amiri',serif;
+    font-size:clamp(1.1rem,3vw,1.5rem);
+    color:#e8d5a0;line-height:2;
+    position:relative;
+  }
+  .arabic-ornament{color:#c9a84c;font-size:1.5rem;margin:0 .5rem}
+  
+  .icons-row{
+    display:flex;justify-content:center;flex-wrap:wrap;gap:2rem;
+    margin:2rem 0;padding:1.5rem;
+    animation:fadeIn 1s ease-out .8s both;
+  }
+  .icon-item{text-align:center;animation:floatAnim var(--d,4s) ease-in-out infinite var(--delay,0s)}
+  @keyframes floatAnim{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+  .icon-svg{display:block;margin:0 auto .5rem;filter:drop-shadow(0 0 8px #c9a84c55)}
+  .icon-label{font-size:.75rem;color:#a0b890;letter-spacing:1px}
+  
+  .stats-section{
+    margin:3rem 0 1rem;
+    animation:floatUp 1s ease-out .9s both;
+  }
+  .stats-title{
+    font-family:'Amiri',serif;
+    font-size:1.8rem;color:#c9a84c;text-align:center;margin-bottom:1.5rem;
+  }
+  .stats-grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:1rem;
+  }
+  .stat-card{
+    background:rgba(15,35,15,.7);
+    border:1px solid #c9a84c44;
+    border-radius:14px;padding:1.2rem;text-align:center;
+    transition:transform .3s,border-color .3s;
+    backdrop-filter:blur(4px);
+  }
+  .stat-card:hover{transform:translateY(-4px);border-color:#c9a84c77}
+  .stat-number{
+    font-family:'Cairo',sans-serif;
+    font-size:clamp(1.6rem,4vw,2.4rem);
+    font-weight:900;color:#c9a84c;
+    line-height:1;margin-bottom:.4rem;
+  }
+  .stat-unit{font-size:.8rem;color:#a0c080;margin-bottom:.4rem}
+  .stat-desc{font-size:.8rem;color:#8aaa78;line-height:1.5}
+  .stat-source{font-size:.65rem;color:#5a7a50;margin-top:.5rem;font-style:italic}
+  
+  .footer{
+    text-align:center;padding:2rem 0 1rem;
+    border-top:1px solid #c9a84c22;margin-top:3rem;
+    animation:fadeIn 1.5s ease-out 1s both;
+  }
+  .footer-text{font-size:.85rem;color:#6a8a60;line-height:1.8}
+  .footer-gold{color:#c9a84c}
+  
+  @keyframes rotateGold{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+  .spin-star{animation:rotateGold 20s linear infinite;transform-origin:center}
+  
+  @media(max-width:600px){
+    .cards-grid{grid-template-columns:1fr}
+    .stats-grid{grid-template-columns:repeat(2,1fr)}
+    .icons-row{gap:1.2rem}
+  }
+</style>
+</head>
+<body>
+<div class="bg-pattern"></div>
+<div class="geometric-bg"></div>
+<div class="stars-layer" id="stars"></div>
+
+<div class="content">
+
+  <!-- Hero Section -->
+  <div class="hero">
+    <div class="eid-badge">✦ عيد الأضحى المبارك ✦</div>
+    
+    <div class="crescent-container">
+      <svg width="60" height="60" viewBox="0 0 60 60">
+        <path d="M30 5 C18 10 10 20 10 32 C10 45 20 55 30 57 C18 54 8 44 8 30 C8 17 18 7 30 5Z" fill="#c9a84c" opacity="0.9"/>
+        <circle cx="40" cy="15" r="3" fill="#c9a84c"/>
+        <circle cx="50" cy="25" r="2" fill="#c9a84c" opacity="0.7"/>
+        <circle cx="45" cy="8" r="1.5" fill="#c9a84c" opacity="0.6"/>
+      </svg>
+      
+      <svg width="80" height="80" viewBox="0 0 80 80" class="spin-star">
+        <g fill="#c9a84c" opacity="0.85">
+          <polygon points="40,5 43,35 40,40 37,35" />
+          <polygon points="75,40 45,43 40,40 45,37" />
+          <polygon points="40,75 37,45 40,40 43,45" />
+          <polygon points="5,40 35,37 40,40 35,43" />
+          <polygon points="63,17 44,38 40,40 42,35" />
+          <polygon points="63,63 42,42 40,40 44,42" />
+          <polygon points="17,63 38,42 40,40 38,45" />
+          <polygon points="17,17 38,38 40,40 35,38" />
+        </g>
+        <circle cx="40" cy="40" r="8" fill="none" stroke="#c9a84c" stroke-width="1" opacity="0.5"/>
+        <circle cx="40" cy="40" r="4" fill="#c9a84c" opacity="0.8"/>
+      </svg>
+      
+      <svg width="60" height="60" viewBox="0 0 60 60">
+        <path d="M30 55 C42 50 50 40 50 28 C50 15 40 5 30 3 C42 6 52 16 52 30 C52 43 42 53 30 55Z" fill="#c9a84c" opacity="0.9"/>
+        <circle cx="20" cy="15" r="3" fill="#c9a84c"/>
+        <circle cx="10" cy="25" r="2" fill="#c9a84c" opacity="0.7"/>
+        <circle cx="15" cy="8" r="1.5" fill="#c9a84c" opacity="0.6"/>
+      </svg>
+    </div>
+    
+    <h1 class="main-title">عيد الأضحى المبارك</h1>
+    <p class="sub-title">كل عام وأنتم بخير</p>
+    <p class="year-badge">١٤٤٧ هـ — ٢٠٢٦ م</p>
+  </div>
+  
+  <!-- Divider -->
+  <div class="divider">
+    <div class="divider-line"></div>
+    <span class="divider-icon">✦</span>
+    <div class="divider-line"></div>
+  </div>
+
+  <!-- Icons Row -->
+  <div class="icons-row">
+    <!-- Kaaba -->
+    <div class="icon-item" style="--d:4s;--delay:0s">
+      <svg class="icon-svg" width="48" height="48" viewBox="0 0 48 48">
+        <rect x="8" y="18" width="32" height="26" fill="#1a3d2a" stroke="#c9a84c" stroke-width="1.5" rx="2"/>
+        <rect x="8" y="18" width="32" height="6" fill="#c9a84c" opacity="0.3"/>
+        <rect x="19" y="30" width="10" height="14" fill="#c9a84c" opacity="0.2" stroke="#c9a84c" stroke-width="1"/>
+        <polygon points="4,18 24,4 44,18" fill="#234d34" stroke="#c9a84c" stroke-width="1.5"/>
+      </svg>
+      <span class="icon-label">الكعبة المشرّفة</span>
+    </div>
+    <!-- Lantern -->
+    <div class="icon-item" style="--d:5s;--delay:.5s">
+      <svg class="icon-svg" width="48" height="48" viewBox="0 0 48 48">
+        <line x1="24" y1="2" x2="24" y2="8" stroke="#c9a84c" stroke-width="2"/>
+        <rect x="16" y="8" width="16" height="4" fill="#c9a84c" rx="2"/>
+        <path d="M12 12 L8 38 L40 38 L36 12Z" fill="#1a3d1a" stroke="#c9a84c" stroke-width="1.5"/>
+        <rect x="16" y="38" width="16" height="4" fill="#c9a84c" rx="2"/>
+        <line x1="12" y1="20" x2="36" y2="20" stroke="#c9a84c" stroke-width=".8" opacity=".6"/>
+        <line x1="10" y1="29" x2="38" y2="29" stroke="#c9a84c" stroke-width=".8" opacity=".6"/>
+        <ellipse cx="24" cy="25" rx="5" ry="6" fill="#c9a84c" opacity="0.3"/>
+        <ellipse cx="24" cy="25" rx="2" ry="3" fill="#f5e6c8" opacity="0.7"/>
+      </svg>
+      <span class="icon-label">فانوس العيد</span>
+    </div>
+    <!-- Crescent star -->
+    <div class="icon-item" style="--d:6s;--delay:1s">
+      <svg class="icon-svg" width="48" height="48" viewBox="0 0 48 48">
+        <path d="M24 6 C14 10 8 18 8 26 C8 36 16 44 24 45 C14 42 6 34 6 24 C6 14 14 6 24 6Z" fill="#c9a84c"/>
+        <polygon points="34,8 35.5,13 41,13 36.5,16.5 38,22 34,18.5 30,22 31.5,16.5 27,13 32.5,13" fill="#c9a84c"/>
+      </svg>
+      <span class="icon-label">هلال وشمس</span>
+    </div>
+    <!-- Sheep -->
+    <div class="icon-item" style="--d:4.5s;--delay:1.5s">
+      <svg class="icon-svg" width="48" height="48" viewBox="0 0 48 48">
+        <ellipse cx="24" cy="26" rx="14" ry="10" fill="#e8d5a0" stroke="#c9a84c" stroke-width="1"/>
+        <circle cx="16" cy="20" r="7" fill="#e8d5a0" stroke="#c9a84c" stroke-width="1"/>
+        <circle cx="24" cy="18" r="7" fill="#e8d5a0" stroke="#c9a84c" stroke-width="1"/>
+        <circle cx="32" cy="20" r="7" fill="#e8d5a0" stroke="#c9a84c" stroke-width="1"/>
+        <ellipse cx="12" cy="28" rx="5" ry="7" fill="#d4c090" stroke="#c9a84c" stroke-width="1"/>
+        <circle cx="10" cy="24" r="5" fill="#d4c090" stroke="#c9a84c" stroke-width="1"/>
+        <circle cx="9" cy="23" r="1.5" fill="#333"/>
+        <line x1="8" y1="26" x2="6" y2="36" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="12" y1="35" x2="10" y2="44" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="30" y1="35" x2="28" y2="44" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="36" y1="34" x2="38" y2="43" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      <span class="icon-label">الأضحية</span>
+    </div>
+    <!-- Dome mosque -->
+    <div class="icon-item" style="--d:5.5s;--delay:2s">
+      <svg class="icon-svg" width="48" height="48" viewBox="0 0 48 48">
+        <path d="M24 10 C16 10 10 18 10 26 L38 26 C38 18 32 10 24 10Z" fill="#1a3d2a" stroke="#c9a84c" stroke-width="1.2"/>
+        <rect x="6" y="26" width="36" height="16" fill="#1a3d2a" stroke="#c9a84c" stroke-width="1.2" rx="1"/>
+        <rect x="20" y="30" width="8" height="12" fill="#c9a84c" opacity="0.2" stroke="#c9a84c" stroke-width="1"/>
+        <line x1="24" y1="8" x2="24" y2="2" stroke="#c9a84c" stroke-width="1.5"/>
+        <polygon points="22,4 24,1 26,4" fill="#c9a84c"/>
+        <line x1="6" y1="20" x2="6" y2="10" stroke="#c9a84c" stroke-width="1.5"/>
+        <line x1="42" y1="20" x2="42" y2="10" stroke="#c9a84c" stroke-width="1.5"/>
+        <circle cx="6" cy="9" r="2" fill="#c9a84c"/>
+        <circle cx="42" cy="9" r="2" fill="#c9a84c"/>
+      </svg>
+      <span class="icon-label">المسجد</span>
+    </div>
+    <!-- Prayer beads -->
+    <div class="icon-item" style="--d:4.8s;--delay:.8s">
+      <svg class="icon-svg" width="48" height="48" viewBox="0 0 48 48">
+        <ellipse cx="24" cy="24" rx="16" ry="16" fill="none" stroke="#c9a84c" stroke-width="1" stroke-dasharray="2,2" opacity=".4"/>
+        <circle cx="24" cy="8" r="3" fill="#c9a84c"/>
+        <circle cx="35" cy="12" r="3" fill="#c9a84c"/>
+        <circle cx="40" cy="24" r="3" fill="#c9a84c"/>
+        <circle cx="35" cy="36" r="3" fill="#c9a84c"/>
+        <circle cx="24" cy="40" r="3" fill="#c9a84c"/>
+        <circle cx="13" cy="36" r="3" fill="#c9a84c"/>
+        <circle cx="8" cy="24" r="3" fill="#c9a84c"/>
+        <circle cx="13" cy="12" r="3" fill="#c9a84c"/>
+        <line x1="24" y1="5" x2="24" y2="1" stroke="#c9a84c" stroke-width="1.5"/>
+        <ellipse cx="24" cy="1" rx="3" ry="2" fill="none" stroke="#c9a84c" stroke-width="1.2"/>
+      </svg>
+      <span class="icon-label">مسبحة</span>
+    </div>
+  </div>
+  
+  <!-- Divider -->
+  <div class="divider">
+    <div class="divider-line"></div>
+    <span class="divider-icon">❋</span>
+    <div class="divider-line"></div>
+  </div>
+  
+  <!-- Prayer / Dua -->
+  <div class="prayer-section">
+    <p class="prayer-text">
+      <span class="arabic-ornament">﴿</span>
+      تقبّل الله منا ومنكم صالح الأعمال<br>
+      وجعل هذا العيد يوم سعادة وسلام<br>
+      على أمة الإسلام جمعاء
+      <span class="arabic-ornament">﴾</span>
+    </p>
+  </div>
+  
+  <!-- Divider -->
+  <div class="divider">
+    <div class="divider-line"></div>
+    <span class="divider-icon">✦</span>
+    <div class="divider-line"></div>
+  </div>
+  
+  <!-- Info Cards -->
+  <div class="cards-grid">
+    <div class="card" style="--delay:.3s">
+      <span class="card-icon">🕋</span>
+      <div class="card-title">يوم عرفة</div>
+      <div class="card-text">الوقوف بعرفة ركن أعظم للحج — يصفو فيه القلب ويُغفر فيه الذنب لمن صام ذلك اليوم</div>
+    </div>
+    <div class="card" style="--delay:.5s">
+      <span class="card-icon">🐑</span>
+      <div class="card-title">سنة الأضحية</div>
+      <div class="card-text">إحياء لسنة سيدنا إبراهيم عليه السلام في تضحيته العظيمة التي ابتلاه الله بها</div>
+    </div>
+    <div class="card" style="--delay:.7s">
+      <span class="card-icon">🤲</span>
+      <div class="card-title">أيام التشريق</div>
+      <div class="card-text">أيام ١١ و١٢ و١٣ ذو الحجة — أيام أكل وشرب وذكر لله، أفضل أيام الدنيا</div>
+    </div>
+    <div class="card" style="--delay:.9s">
+      <span class="card-icon">🌙</span>
+      <div class="card-title">ذكر وتكبير</div>
+      <div class="card-text">«الله أكبر الله أكبر لا إله إلا الله والله أكبر الله أكبر ولله الحمد»</div>
+    </div>
+  </div>
+  
+  <!-- Divider -->
+  <div class="divider" style="margin-top:2.5rem">
+    <div class="divider-line"></div>
+    <span class="divider-icon">📊</span>
+    <div class="divider-line"></div>
+  </div>
+  
+  <!-- Stats Section -->
+  <div class="stats-section">
+    <h2 class="stats-title">أرقام عيد الأضحى حول العالم</h2>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-number" id="n1">0</div>
+        <div class="stat-unit">مليار مسلم</div>
+        <div class="stat-desc">يحتفلون بعيد الأضحى حول العالم</div>
+        <div class="stat-source">تقديرات — Pew Research</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="n2">0</div>
+        <div class="stat-unit">مليون حاج</div>
+        <div class="stat-desc">يتوافدون على مكة المكرمة كل موسم</div>
+        <div class="stat-source">إحصاءات الحج — وزارة الحج السعودية</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="n3">0</div>
+        <div class="stat-unit">مليون أضحية</div>
+        <div class="stat-desc">تُنحر تقريبًا حول العالم يوم العيد</div>
+        <div class="stat-source">تقديرات منظمة الفاو — FAO</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="n4">0</div>
+        <div class="stat-unit">دولة</div>
+        <div class="stat-desc">تُعلن عيد الأضحى إجازة رسمية</div>
+        <div class="stat-source">تقديرات عامة موثقة</div>
+      </div>
+    </div>
+    <p style="text-align:center;font-size:.75rem;color:#5a7a50;margin-top:1rem;line-height:1.8">
+      ⚠️ الأرقام تقديرية واسترشادية — للاطلاع على أحدث الإحصاءات الرسمية يُرجى مراجعة المصادر المذكورة
+    </p>
+  </div>
+  
+  <!-- Geometric ornament footer -->
+  <div style="text-align:center;margin:2.5rem 0 1.5rem;animation:fadeIn 1.5s ease-out 1s both">
+    <svg width="200" height="40" viewBox="0 0 200 40">
+      <g fill="none" stroke="#c9a84c" stroke-width="0.8" opacity="0.6">
+        <polygon points="100,4 108,16 100,28 92,16" />
+        <polygon points="100,8 106,16 100,24 94,16" fill="#c9a84c" opacity="0.15"/>
+        <line x1="20" y1="20" x2="84" y2="20"/>
+        <line x1="116" y1="20" x2="180" y2="20"/>
+        <circle cx="20" cy="20" r="3" fill="#c9a84c" opacity=".5"/>
+        <circle cx="180" cy="20" r="3" fill="#c9a84c" opacity=".5"/>
+        <circle cx="50" cy="20" r="2" fill="#c9a84c" opacity=".4"/>
+        <circle cx="150" cy="20" r="2" fill="#c9a84c" opacity=".4"/>
+      </g>
+    </svg>
+  </div>
+  
+  <div class="footer">
+    <p class="footer-text">
+      بمناسبة <span class="footer-gold">عيد الأضحى المبارك ١٤٤٧ هـ</span><br>
+      تقبّل الله طاعتكم وجعلكم من عتقائه ✦ كل عام وأنتم بخير
+    </p>
+  </div>
+</div>
+
+<script>
+(function(){
+  // Generate stars
+  const starsLayer = document.getElementById('stars');
+  const delays = [0,.3,.7,1.1,1.5,2,2.5,3,3.5,4];
+  for(let i=0;i<60;i++){
+    const s=document.createElement('div');
+    s.className='star';
+    const size=Math.random()*2.5+1;
+    s.style.cssText=`
+      width:${size}px;height:${size}px;
+      left:${Math.random()*100}%;top:${Math.random()*100}%;
+      --d:${Math.random()*4+2}s;
+      --delay:-${Math.random()*5}s;
+      opacity:${Math.random()*0.6+0.1}
+    `;
+    starsLayer.appendChild(s);
+  }
+  
+  // Animate stats counters
+  const targets = {n1:2,n2:3,n3:100,n4:50};
+  const labels = {n1:'2',n2:'3',n3:'100',n4:'50'};
+  
+  function animateCounter(id,target,duration){
+    const el=document.getElementById(id);
+    if(!el) return;
+    const start=performance.now();
+    function step(now){
+      const p=Math.min((now-start)/duration,1);
+      const ease=1-Math.pow(1-p,3);
+      const val=Math.round(target*ease);
+      el.textContent=val;
+      if(p<1) requestAnimationFrame(step);
+      else el.textContent=labels[id];
+    }
+    requestAnimationFrame(step);
+  }
+  
+  const obs=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        animateCounter('n1',2,1800);
+        animateCounter('n2',3,1800);
+        animateCounter('n3',100,2000);
+        animateCounter('n4',50,2000);
+        obs.disconnect();
+      }
+    });
+  },{threshold:.3});
+  
+  const statsSection=document.querySelector('.stats-section');
+  if(statsSection) obs.observe(statsSection);
+})();
+</script>
+</body>
+</html>
